@@ -1,0 +1,11 @@
+Universe = vanilla
+Executable=./train_dgcnn.sh
+Arguments  = 1000
+Log    = ./log/log_dgcnn.log
+Output = ./log/log_dgcnn.out
+Error  = ./log/log_dgcnn.err
+request_CPUs = 8
+request_GPUs = 1
+
+should_transfer_files = NO
+Queue

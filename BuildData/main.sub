@@ -1,0 +1,11 @@
+Universe = vanilla
+Executable=./main.sh
+Arguments  = 1000
+Log    = ./log/log.log
+Output = ./log/log.out
+Error  = ./log/log.err
+request_CPUs = 8
+request_GPUs = 0
+
+should_transfer_files = NO
+Queue
