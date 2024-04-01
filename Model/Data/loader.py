@@ -76,7 +76,13 @@ class GNNImageSet(Dataset):
 
         # point cloud
 
+
+
+
         points = self.datasets.build_tensor(branch_list=self.exp_dict['vector'], index=index, input_vector=True)
+
+        f_num = points.shape[0]
+
 
         # global
         global_vector = self.datasets.build_tensor(branch_list=self.exp_dict['scalar'], index=index, input_vector=False)
@@ -92,7 +98,9 @@ class GNNImageSet(Dataset):
 
                 num_to_padding = self.max_nodes - points.shape[-1]
                 choice = np.random.choice(points.shape[-1], num_to_padding, replace=True)
-                paddings = points[:, choice]
+                # paddings = points[:, choice]
+                paddings = np.zeros((f_num, num_to_padding))
+
                 points = np.concatenate([points, paddings], axis=-1)
 
             else:
@@ -140,7 +148,7 @@ def data_loader_gnn(file_path: str,
 
 
 if __name__ == "__main__":
-    file_path = '/lustre/collider/zhoubaihong/tri-Higgs/ML/Signal_nano.root'
+    file_path = '/lustre/collider/wanghaoyu/Ntuples/triHiggs_ML_v2/test/triHiggs_ML.root'
 
     loader = data_loader_gnn(file_path=file_path,
                              exp_dict={'vector': ['jets_E', 'jets_pt', ],
@@ -155,10 +163,10 @@ if __name__ == "__main__":
 
     for i, (p, g, label) in enumerate(loader):
         print('img:{} g:{} label:{}'.format(p.shape, g.shape, label.shape))
-
+        print(p)
         if i == 1:
             break
 
-    file = ReadRoot(file_path='/lustre/collider/zhoubaihong/tri-Higgs/ML/Signal_nano.root',
-                    tree_name='HHHNtuple',
-                    exp=['jets_E', 'jets_pt', 'circH3', 'circH2', 'isSignal'])
+    # file = ReadRoot(file_path='/lustre/collider/zhoubaihong/tri-Higgs/ML/Signal_nano.root',
+    #                 tree_name='HHHNtuple',
+    #                 exp=['jets_E', 'jets_pt', 'circH3', 'circH2', 'isSignal'])

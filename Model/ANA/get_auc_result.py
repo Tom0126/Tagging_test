@@ -29,7 +29,7 @@ def main(file_format, num=10):
 
 if __name__ == '__main__':
 
-    main(file_format='/lustre/collider/songsiyuan/TriHiggs/CheckPoint/0329*/ANA/Validation/roc/auroc.npy', num=50)
+    main(file_format='/lustre/collider/songsiyuan/TriHiggs/CheckPoint/0331*/ANA/Validation/roc/auroc.npy', num=50)
 
 
     pass

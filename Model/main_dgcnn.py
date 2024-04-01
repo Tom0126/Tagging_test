@@ -53,7 +53,7 @@ if __name__ == '__main__':
         drop_last=False
     )
 
-    net_name = '0329_{}_mc_dgcnn_epoch_{}_lr_{}_batch_{}_optim_{}_classes_{}_l_gamma_{}_step_{}_nodes_{}_k_{}_v1'.format(
+    net_name = '0331_{}_mc_dgcnn_epoch_{}_lr_{}_batch_{}_optim_{}_classes_{}_l_gamma_{}_step_{}_nodes_{}_k_{}_v1'.format(
         args.index,
         args.n_epoch,
         args.learning_rate,
