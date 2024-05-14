@@ -6,7 +6,7 @@
 # @File    : Cor.py
 # @Software: PyCharm
 
-from Data.read_root import ReadRoot
+from BuildData.read_root import ReadRoot
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -61,17 +61,22 @@ if __name__ == '__main__':
     #
 
 
-    var_list = ['njets', 'nbjets', 'TotalJetsEnergy', 'TotalHiggsJetPt', 'mH1', 'mH2', 'mH3', 'phiH1', 'phiH2', 'phiH3',
-           'dEtaH1', 'dEtaH2', 'dEtaH3', 'dPhiH1', 'dPhiH2', 'dPhiH3', 'dRH1', 'dRH2', 'dRH3', 'pTH1', 'pTH2', 'pTH3',
-           'mHangle1', 'mHangle2', 'mHangle3', 'asymH1', 'asymH2', 'asymH3', 'circH1', 'circH2', 'circH3', 'mHHH',
-           'rmsmH', 'rmsOverMeanH', 'cosAngleH1', 'cosAngleH2', 'cosAngleH3', 'eta_mHHH']
+    # var_list = ['njets', 'nbjets', 'TotalJetsEnergy', 'TotalHiggsJetPt', 'mH1', 'mH2', 'mH3', 'phiH1', 'phiH2', 'phiH3',
+    #        'dEtaH1', 'dEtaH2', 'dEtaH3', 'dPhiH1', 'dPhiH2', 'dPhiH3', 'dRH1', 'dRH2', 'dRH3', 'pTH1', 'pTH2', 'pTH3',
+    #        'mHangle1', 'mHangle2', 'mHangle3', 'asymH1', 'asymH2', 'asymH3', 'circH1', 'circH2', 'circH3', 'mHHH',
+    #        'rmsmH', 'rmsOverMeanH', 'cosAngleH1', 'cosAngleH2', 'cosAngleH3', 'eta_mHHH']
+
+    var_list = [ 'nbjets', 'mH1', 'mH2', 'mH3',
+                'dPhiH1', 'dPhiH2', 'dPhiH3', 'dRH1', 'dRH2', 'dRH3', 'pTH1', 'pTH2',
+                'pTH3',   'circH1', 'circH2', 'circH3',
+                'mHHH', 'rmsmH', 'rmsOverMeanH', 'cosAngleH2', 'cosAngleH3', 'eta_mHHH']
 
     labels = var_list
 
     plotCorHeatmap_csv(
-        file_path='/lustre/collider/songsiyuan/TriHiggs/dataset/debug/sig_bkg_nano.csv',
+        file_path='/lustre/collider/songsiyuan/TriHiggs/dataset/training/vector.csv',
         varlist=var_list,
-        save_path='/lustre/collider/songsiyuan/TriHiggs/dataset/debug/coor_mc.png',
+        save_path='/lustre/collider/songsiyuan/TriHiggs/dataset/training/coor_mc.png',
         title='MC samples',
         labels=labels,
         annot=False

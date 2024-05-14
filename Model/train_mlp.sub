@@ -1,0 +1,11 @@
+Universe = vanilla
+Executable=./train_mlp.sh
+Arguments  = 1000
+Log    = ./log/log_mlp.log
+Output = ./log/log_mlp.out
+Error  = ./log/log_mlp.err
+request_CPUs = 8
+request_GPUs = 1
+
+should_transfer_files = NO
+Queue

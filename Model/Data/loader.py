@@ -76,9 +76,6 @@ class GNNImageSet(Dataset):
 
         # point cloud
 
-
-
-
         points = self.datasets.build_tensor(branch_list=self.exp_dict['vector'], index=index, input_vector=True)
 
         f_num = points.shape[0]
@@ -90,16 +87,15 @@ class GNNImageSet(Dataset):
         # label
         label = self.labels[index]
 
-        points = points.astype(np.float32)
-        global_vector = global_vector.astype(np.float32)
+
 
         if self.padding:
             if self.max_nodes > points.shape[-1]:
 
                 num_to_padding = self.max_nodes - points.shape[-1]
                 choice = np.random.choice(points.shape[-1], num_to_padding, replace=True)
-                # paddings = points[:, choice]
-                paddings = np.zeros((f_num, num_to_padding))
+                paddings = points[:, choice]
+                # paddings = np.zeros((f_num, num_to_padding))
 
                 points = np.concatenate([points, paddings], axis=-1)
 
@@ -108,6 +104,8 @@ class GNNImageSet(Dataset):
                 choice = np.random.choice(points.shape[-1], self.max_nodes, replace=False)
                 points = points[:, choice]
 
+        points = points.astype(np.float32)
+        global_vector = global_vector.astype(np.float32)
         # (F, P)
 
         return points, global_vector, label
@@ -147,6 +145,68 @@ def data_loader_gnn(file_path: str,
     return loader_train
 
 
+class MLPImageSet(Dataset):
+    def __init__(self,
+                 file_path,
+                 exp_dict,
+                 tree_name,
+                 transform=None) -> None:
+        super().__init__()
+
+        self.exp_dict = exp_dict
+
+        self.datasets = ReadRoot(file_path=file_path,
+                                 tree_name=tree_name,
+                                 exp=exp_dict['scalar'] + exp_dict['label']
+                                 )
+
+        self.labels = self.datasets.readBranch(branch=exp_dict['label'][0])
+        self.labels = self.labels.astype(np.longlong)
+
+        self.transform = transform
+
+    def __getitem__(self, index: Any):
+        # global
+        global_vector = self.datasets.build_tensor(branch_list=self.exp_dict['scalar'], index=index, input_vector=False)
+
+        # label
+        label = self.labels[index]
+
+        global_vector = global_vector.astype(np.float32)
+
+        return global_vector, global_vector, label
+
+    def __len__(self):
+        return len(self.labels)
+
+
+def data_loader_mlp(file_path: str,
+                    exp_dict: dict,
+                    tree_name: str,
+                    batch_size: int = 512,
+                    shuffle: bool = False,
+                    num_workers: int = 0,
+                    drop_last=True,
+                    **kwargs):
+    transforms_train = transforms.Compose([
+        transforms.ToTensor(),
+    ])
+    dataset_train = MLPImageSet(file_path=file_path,
+                                exp_dict=exp_dict,
+                                tree_name=tree_name,
+                                transform=transforms_train,
+
+                                )
+
+    loader_train = DataLoader(dataset=dataset_train,
+                              batch_size=batch_size,
+                              shuffle=shuffle,
+                              num_workers=num_workers,
+                              drop_last=drop_last)
+
+    return loader_train
+
+
 if __name__ == "__main__":
     file_path = '/lustre/collider/wanghaoyu/Ntuples/triHiggs_ML_v2/test/triHiggs_ML.root'
 
@@ -158,8 +218,8 @@ if __name__ == "__main__":
                              tree_name='HHHNtuple',
                              num_workers=0,
                              max_nodes=10,
-                             padding=True,
-                             batch_size=2)
+                             padding=False,
+                             batch_size=1)
 
     for i, (p, g, label) in enumerate(loader):
         print('img:{} g:{} label:{}'.format(p.shape, g.shape, label.shape))

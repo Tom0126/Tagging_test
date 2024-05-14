@@ -40,15 +40,17 @@ class ReadRoot():
 
 if __name__ == '__main__':
 
-    file = uproot.open('/lustre/collider/wanghaoyu/Ntuples/triHiggs_ML_v1/test/triHiggs_ML.root')
-    tree = file['HHHNtuple']
-    tree=  tree.arrays(aliases=None,
-                                cut=None,
-                                expressions=['njets', 'jets_eta'],
-                                library="np",
-                                entry_start=0,
-                                entry_stop=10)
+    tree= ReadRoot(file_path='/lustre/collider/wanghaoyu/Ntuples/triHiggs_ML_v5/validation/triHiggs_ML.root',
+                   exp=['jets_pt'],
+                   start=0,
+                   end=10,
+                   tree_name='HHHNtuple')
 
-    print(tree.update(tree))
-    print(tree)
+    eta=tree.readBranch('jets_pt')
+
+    for _ in eta:
+        print(
+            _
+        )
+
     pass

@@ -109,6 +109,16 @@ def get_net_para(net_used, **kwargs):
                     'num_classes': kwargs.get('n_classes'),
                     }
 
+
+    elif net_used == 'mlp':
+        net_para = {
+
+                    'global_vector_channel': kwargs.get('global_vector_channel'),
+
+                    'dropout': kwargs.get('dropout'),
+                    'num_classes': kwargs.get('n_classes'),
+                    }
+
     elif net_used == 'dgres':
 
         net_para = {
@@ -243,6 +253,15 @@ def interface(hyper_para: dict,
                                 adaptive_pool=hyper_para.get('adaptive_pool'),
                                 pool_out_size=hyper_para.get('pool_out_size'),
                                 emb_dims=hyper_para.get('emb_dims'),
+                                dropout=hyper_para.get('dropout'),
+                                )
+
+    elif net_used == 'mlp':
+        net_para = get_net_para(net_used=net_used,
+                                n_classes=hyper_para.get('n_classes'),
+
+                                global_vector_channel = hyper_para.get('global_vector_channel'),
+
                                 dropout=hyper_para.get('dropout'),
                                 )
 

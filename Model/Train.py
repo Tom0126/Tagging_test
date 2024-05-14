@@ -112,11 +112,8 @@ def train(net,
 
                 loss_mean = 0.
 
-
-
-
-
         scheduler.step()  # renew LR
+
 
         # validate the model
         if (epoch + 1) % val_interval == 0:
@@ -125,8 +122,10 @@ def train(net,
             total_val = 0.
             loss_val = 0.
             net.eval()
+
             with torch.no_grad():
                 for j, (points, vectors,labels) in enumerate(loader_valid):
+
                     # input configuration
                     points = points.to(device)
                     vectors = vectors.to(device)
@@ -149,6 +148,7 @@ def train(net,
                 valid_itertation.append(iteration)
                 valid_error.append(1-correct_val / total_val)
                 valid_loss.append(loss_val_epoch)
+
 
 
     end_time = time.time()

@@ -127,7 +127,8 @@ class DGCNN_vector_cls(PCNN):
                  get_f_func,
                  adaptive_pool: bool,
                  dropout: float,
-                 pool_out_size: tuple = None):
+                 pool_out_size: tuple = None,
+                 ):
         super().__init__(k, in_channel, channels, kernels, bns, acti, get_f_func, adaptive_pool, pool_out_size)
 
         self.global_vector_channel = global_vector_channel
@@ -164,11 +165,15 @@ class DGCNN_vector_cls(PCNN):
         # input : p (-1, c, p)]
 
         batch_size= x.shape[0]
+        num_points= x.shape[-1]
+
+        k = num_points if num_points < self.k else self.k
+
 
         x_list = []
 
         for i, conv in enumerate(self.convs):
-            x = self.get_f_func(x, k=self.k)
+            x = self.get_f_func(x, k=k)
             x = conv(x)  # (-1, C, P, k))
             x = x.max(dim=-1, keepdim=False)[0]
             x_list.append(x)

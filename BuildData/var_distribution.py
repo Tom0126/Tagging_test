@@ -13,20 +13,20 @@ import numpy as np
 import os
 from BuildData.read_root import ReadRoot
 
-def main_validation_var():
+def main_var():
     os.makedirs('/lustre/collider/songsiyuan/TriHiggs/dataset', exist_ok=True)
-    os.makedirs('/lustre/collider/songsiyuan/TriHiggs/dataset/validation', exist_ok=True)
+    os.makedirs('/lustre/collider/songsiyuan/TriHiggs/dataset/training', exist_ok=True)
 
     exp = ['njets', 'nbjets', 'TotalJetsEnergy', 'TotalHiggsJetPt', 'mH1', 'mH2', 'mH3', 'phiH1', 'phiH2', 'phiH3',
            'dEtaH1', 'dEtaH2', 'dEtaH3', 'dPhiH1', 'dPhiH2', 'dPhiH3', 'dRH1', 'dRH2', 'dRH3', 'pTH1', 'pTH2', 'pTH3',
            'mHangle1', 'mHangle2', 'mHangle3', 'asymH1', 'asymH2', 'asymH3', 'circH1', 'circH2', 'circH3', 'mHHH',
            'rmsmH', 'rmsOverMeanH', 'cosAngleH1', 'cosAngleH2', 'cosAngleH3', 'eta_mHHH', 'isSignal']
 
-    file = ReadRoot(file_path='/lustre/collider/wanghaoyu/Ntuples/triHiggs_ML_v1/validation/triHiggs_ML.root',
+    file = ReadRoot(file_path='/lustre/collider/wanghaoyu/Ntuples/triHiggs_ML_v5/training/triHiggs_ML.root',
                     tree_name='HHHNtuple',
                     exp=exp)
 
-    file.build_csv(branch_list=exp, save_path='/lustre/collider/songsiyuan/TriHiggs/dataset/validation/vector.csv')
+    file.build_csv(branch_list=exp, save_path='/lustre/collider/songsiyuan/TriHiggs/dataset/training/vector.csv')
 
 
 
@@ -85,16 +85,16 @@ def plot_distribution(file_path, cols, label_col, save_path):
 
 if __name__ == '__main__':
 
-    # main_validation_var()
+    main_var()
     var_list = ['njets', 'nbjets', 'TotalJetsEnergy', 'TotalHiggsJetPt', 'mH1', 'mH2', 'mH3', 'phiH1', 'phiH2', 'phiH3',
                 'dEtaH1', 'dEtaH2', 'dEtaH3', 'dPhiH1', 'dPhiH2', 'dPhiH3', 'dRH1', 'dRH2', 'dRH3', 'pTH1', 'pTH2',
                 'pTH3', 'mHangle1', 'mHangle2', 'mHangle3', 'asymH1', 'asymH2', 'asymH3', 'circH1', 'circH2', 'circH3',
                 'mHHH', 'rmsmH', 'rmsOverMeanH', 'cosAngleH1', 'cosAngleH2', 'cosAngleH3', 'eta_mHHH', 'isSignal']
 
-    plot_distribution(file_path='/lustre/collider/songsiyuan/TriHiggs/dataset/validation/vector.csv',
+    plot_distribution(file_path='/lustre/collider/songsiyuan/TriHiggs/dataset/training/vector.csv',
                       cols=var_list,
                       label_col='isSignal',
-                      save_path='/lustre/collider/songsiyuan/TriHiggs/dataset/debug/vat.png')
+                      save_path='/lustre/collider/songsiyuan/TriHiggs/dataset/debug/var_distri_v5.png')
 
 
     # file = pd.read_csv('/lustre/collider/songsiyuan/TriHiggs/dataset/training/vector.csv',
